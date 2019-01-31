@@ -28,39 +28,12 @@
 
 </style>
 <?php
-// if(isset($_POST['i'])){
-//   $i = $_POST['i'];
-// }else{
-//   $i = 1;
-// }
-if(isset($_COOKIE['index'])){
-  $i = rand(1,10);
-  $newtab = unserialize($_COOKIE['index']);
-  $tours = count($newtab);
-  if($tours != 6){
-    while(in_array($i,$newtab)){
-      echo 'tour';
-      $i = rand(1,10);
-    }
-    array_push($newtab,$i);
-    setcookie("index", serialize($newtab), time()+3600);
-    var_dump(unserialize($_COOKIE['index']));
-  }else{
-    echo 'bonjour';
-    setcookie('index', '', time() - 3600);
-  }
-}
-else{
-  $i = rand(1,10);
-  $tab = [$i];
-  setcookie("index", serialize($tab), time()+3600);
-}
-
 
 if(isset($_POST['reponse'])){
   $nbRep = count($_POST['reponse'][0]);
   if($nbRep == 1){
-    $result = verifReponse($i - 1, $_POST['reponse']);
+    $lastInsertIndex = end(unserialize($_COOKIE['index']));
+    $result = verifReponse($lastInsertIndex, $_POST['reponse']);
     if($result[0]['juste'] == 0){
       echo '<span class="msg">Réponse précédente incorrect</span>';
     }else{
@@ -70,7 +43,8 @@ if(isset($_POST['reponse'])){
   else{
     $tab = [];
     $reponseUser = [];
-    $donnees = verifMultiReponses($i -1);
+    $lastInsertIndex = end(unserialize($_COOKIE['index']));
+    $donnees = verifMultiReponses($lastInsertIndex);
     foreach ($donnees as $key => $value) {
       array_push($tab,$value['texte']);
     }
@@ -83,8 +57,30 @@ if(isset($_POST['reponse'])){
       echo '<span class="msg">Réponse précédente incorrect</span>';
     }
   }
-}elseif($i != 1){
+}elseif(isset($_COOKIE['index'])){
   echo '<span class="msg">Réponse précédente non renseignée</span>';
+}
+
+if(isset($_COOKIE['index'])){
+  $i = rand(1,10);
+  $newtab = unserialize($_COOKIE['index']);
+  $tours = count($newtab);
+  if($tours != 6){
+    while(in_array($i,$newtab)){
+      echo 'tour';
+      $i = rand(1,10);
+    }
+    array_push($newtab,$i);
+    setcookie("index", serialize($newtab), time()+3600);
+  }else{
+    echo 'bonjour';
+    setcookie('index', '', time() - 3600);
+  }
+}
+else{
+  $i = rand(1,10);
+  $tab = [$i];
+  setcookie("index", serialize($tab), time()+3600);
 }
 
 $donnees = getQuestion($i);
