@@ -1,54 +1,10 @@
 <?php include('header.php')?>
-<?php if(isset($_POST)){
-
-$to  = 'enzoabt@free.fr';
-
-// Sujet
-$subject = 'Calendrier des anniversaires pour Août';
-
-// message
-$message = '
-<html>
- <head>
-  <title>Calendrier des anniversaires pour Août</title>
- </head>
- <body>
-  <p>Voici les anniversaires à venir au mois d\'Août !</p>
-  <table>
-   <tr>
-    <th>Personne</th><th>Jour</th><th>Mois</th><th>Année</th>
-   </tr>
-   <tr>
-    <td>Josiane</td><td>3</td><td>Août</td><td>1970</td>
-   </tr>
-   <tr>
-    <td>Emma</td><td>26</td><td>Août</td><td>1973</td>
-   </tr>
-  </table>
- </body>
-</html>
-';
-
-// Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
-$headers[] = 'MIME-Version: 1.0';
-$headers[] = 'Content-type: text/html; charset=iso-8859-1';
-
-// En-têtes additionnels
-$headers[] = 'To: Mary <enzoabt@free.fr>';
-$headers[] = 'From: Anniversaire <anniversaire@example.com>';
-$headers[] = 'Cc: anniversaire_archive@example.com';
-$headers[] = 'Bcc: anniversaire_verif@example.com';
-
-// Envoi
-mail($to, $subject, $message, implode("\r\n", $headers));
-}
-?>
 
 <div class="container">
 <h2>Formulaire d'inscription</h2>
 <div class='row'>
 
-<form method="POST" action="" >
+<form method="POST" action="formulaire-bdd.php" >
   <div class="form-group row">
     <label for="Nom">Nom:</label>
     <input type="text" class="form-control" name="Nom" value="" required>
