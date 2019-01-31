@@ -27,11 +27,35 @@
 }
 
 </style>
-<?php if(isset($_POST['i'])){
-  $i = $_POST['i'];
-}else{
-  $i = 1;
+<?php
+// if(isset($_POST['i'])){
+//   $i = $_POST['i'];
+// }else{
+//   $i = 1;
+// }
+if(isset($_COOKIE['index'])){
+  $i = rand(1,10);
+  $newtab = unserialize($_COOKIE['index']);
+  $tours = count($newtab);
+  if($tours != 6){
+    while(in_array($i,$newtab)){
+      echo 'tour';
+      $i = rand(1,10);
+    }
+    array_push($newtab,$i);
+    setcookie("index", serialize($newtab), time()+3600);
+    var_dump(unserialize($_COOKIE['index']));
+  }else{
+    echo 'bonjour';
+    setcookie('index', '', time() - 3600);
+  }
 }
+else{
+  $i = rand(1,10);
+  $tab = [$i];
+  setcookie("index", serialize($tab), time()+3600);
+}
+
 
 if(isset($_POST['reponse'])){
   $nbRep = count($_POST['reponse'][0]);
@@ -64,7 +88,6 @@ if(isset($_POST['reponse'])){
 }
 
 $donnees = getQuestion($i);
-
 
 echo '<div id="form-question">
   <h4>'.$donnees[0]['question'].'</h4>'; ?>

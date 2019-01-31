@@ -1,5 +1,6 @@
 $('.test').hide();
 
+// 
 $( ".commencer" ).click(function() {
 
   $( ".intro" ).hide();
@@ -20,7 +21,7 @@ $( ".commencer" ).click(function() {
 
 $('.test').on('click','.suivant',function(){
 
-  //var i = parseInt($(this).attr('data-next')) + 1;
+  var i = parseInt($(this).attr('data-next')) + 1;
   var reponse = [];
   $("input:checked").each(
       function() {
